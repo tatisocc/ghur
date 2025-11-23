@@ -1,14 +1,25 @@
-        _______   ___ ___   ____ __   _______ 
-      /        \/    /   \/    /   \/        \
-     /     ____/         /    /    /     /   /
-    /     /   /         /         /        _/ 
-    \________/\___/____/\________/\____/___/ v.1 
+    _______   ___ ___   ____ __   _______ 
+  /        \/    /   \/    /   \/        \
+ /     ____/         /    /    /     /   /
+/     /   /         /         /        _/ 
+\________/\___/____/\________/\____/___/ v.1 
                                               
-    -------------------------------------------
-       - Like GhostTR, but just for users -
-    -------------------------------------------
+-------------------------------------------
+       - the simple user tracker -
+-------------------------------------------
 
-    ghur busca en 20 redes sociales el objetivo
+ghur busca en 20 redes sociales el objetivo solicitado.
+Después, enlista las coincidencias. 
 
-    Enlista las coincidencias y, al ser la prim
-    era versión, puede tener falsos positivos.
+* Recuerda; puede tener falsos positivos. *
+
+
+Planes para v.2:
+
+Filtro.
+
+- Descarga de HTML.
+- Comparación de contenido en páginas.
+- Busca coincidencias entre descripciones, pronombres, banderas y demás.
+- Imprime qué usuario tiene la mayor coincidencia de los hipervínculos descargados.
+
