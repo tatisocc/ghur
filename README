@@ -14,12 +14,11 @@ Después, enlista las coincidencias.
 * Recuerda; puede tener falsos positivos. *
 
 
-Planes para v.2:
+Planes para versiones futuras:
 
-Filtro.
+- Apartado para introducir API keys personales.
+- Webscrapping.
 
-- Descarga de HTML.
-- Comparación de contenido en páginas.
-- Busca coincidencias entre descripciones, pronombres, banderas y demás.
-- Imprime qué usuario tiene la mayor coincidencia de los hipervínculos descargados.
+
+
 
