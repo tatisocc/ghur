@@ -1,0 +1,186 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+import requests
+import time
+import os
+
+GREEN = "\033[1;32m"
+RESET = "\033[0m"
+
+HEADERS = {
+    'User-Agent': (
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
+        'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124 Safari/537.36'
+    )
+}
+
+SESSION = requests.Session()
+
+
+def clear():
+    os.system('cls' if os.name == 'nt' else 'clear')
+
+
+def run_banner():
+    clear()
+    print(r"""
+        _______   ___ ___   ____ __   _______ 
+      /        \/    /   \/    /   \/        \
+     /     ____/         /    /    /     /   /
+    /     /   /         /         /        _/ 
+    \________/\___/____/\________/\____/___/  
+                                              
+    ------------------------------------------
+       - Like GhostTR, but just for users -
+    ------------------------------------------
+    """)
+
+
+def robust_get(url, follow=False):
+    for _ in range(2):
+        try:
+            return SESSION.get(url, headers=HEADERS, timeout=5, allow_redirects=follow)
+        except requests.exceptions.RequestException:
+            time.sleep(0.2)
+    return None
+
+
+def validate_instagram(html, user):
+    if '"username":"' in html:
+        return True
+    if "Page Not Found" in html or "No disponible" in html:
+        return False
+    return None
+
+
+def validate_youtube(html, user):
+    low = html.lower()
+    if f'"title":"@{user.lower()}' in low:
+        return True
+    if "isn't available" in low or "not found" in low:
+        return False
+    return None
+
+
+def validate_tiktok(html, user):
+    if "Couldn't find this account" in html:
+        return False
+    if '"__UNIVERSAL_DATA__"' in html:
+        return True
+    return None
+
+
+def validate_github(html, user):
+    if f"<title>{user}" in html:
+        return True
+    if "not found" in html.lower():
+        return False
+    return None
+
+
+def validate_steam(final_url):
+    if "/search/" in final_url or "/public/" in final_url:
+        return False
+    return True
+
+
+VALIDATORS = {
+    "Instagram": validate_instagram,
+    "YouTube": validate_youtube,
+    "TikTok": validate_tiktok,
+    "GitHub": validate_github
+}
+
+
+def analyze_html(html, platform, user):
+    if platform in VALIDATORS:
+        v = VALIDATORS[platform](html, user)
+        if v is not None:
+            return v
+
+    low = html.lower()
+    for k in ["not found", "no existe", "not available", "does not exist"]:
+        if k in low:
+            return False
+
+    if len(html) < 1500:
+        return False
+
+    return True
+
+
+def check(url, user, platform):
+    r = robust_get(url, follow=False)
+    if r is None:
+        return None
+
+    if r.status_code == 404:
+        return False
+
+    if r.status_code == 200:
+        return analyze_html(r.text, platform, user)
+
+    if r.status_code in (301, 302, 303, 307, 308):
+        r2 = robust_get(url, follow=True)
+        if r2 is None:
+            return None
+
+        if platform == "Steam":
+            return validate_steam(r2.url)
+
+        return analyze_html(r2.text, platform, user)
+
+    return None
+
+
+def TrackLu():
+    run_banner()
+    username = input("    @")
+
+    platforms = [
+        {"url": "https://www.facebook.com/{}", "name": "Facebook"},
+        {"url": "https://www.twitter.com/{}", "name": "Twitter"},
+        {"url": "https://www.instagram.com/{}", "name": "Instagram"},
+        {"url": "https://www.linkedin.com/in/{}", "name": "LinkedIn"},
+        {"url": "https://www.github.com/{}", "name": "GitHub"},
+        {"url": "https://www.pinterest.com/{}", "name": "Pinterest"},
+        {"url": "https://www.tumblr.com/{}", "name": "Tumblr"},
+        {"url": "https://www.youtube.com/{}", "name": "YouTube"},
+        {"url": "https://soundcloud.com/{}", "name": "SoundCloud"},
+        {"url": "https://www.snapchat.com/add/{}", "name": "Snapchat"},
+        {"url": "https://www.tiktok.com/@{}", "name": "TikTok"},
+        {"url": "https://www.behance.net/{}", "name": "Behance"},
+        {"url": "https://medium.com/@{}", "name": "Medium"},
+        {"url": "https://www.quora.com/profile/{}", "name": "Quora"},
+        {"url": "https://www.flickr.com/people/{}", "name": "Flickr"},
+        {"url": "https://www.periscope.tv/{}", "name": "Periscope"},
+        {"url": "https://www.twitch.tv/{}", "name": "Twitch"},
+        {"url": "https://www.snapchat.com/add/{}", "name": "Snapchat"},
+        {"url": "https://www.telegram.me/{}", "name": "Telegram"},
+        {"url": "https://steamcommunity.com/id/{}", "name": "Steam"}
+    ]
+
+    found = {}
+
+    for p in platforms:
+        url = p["url"].format(username)
+        result = check(url, username, p["name"])
+        if result is True:
+            found[p["name"]] = url
+
+    if found:
+        print("\nObjetivo probablemente presente en:\n")
+        for site, link in found.items():
+            print(f"[OK] {site:<14}: {GREEN}{link}{RESET}")
+    else:
+        print("No se encontraron coincidencias.")
+
+    input("\nPresiona Enter para salir...")
+
+
+if __name__ == "__main__":
+    try:
+        TrackLu()
+    except KeyboardInterrupt:
+        print("\nCancelado.")
