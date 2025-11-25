@@ -11,8 +11,7 @@
 
 Herramienta de Enumeración de Identidades (OSINT)
 
-ghur es una herramienta especializada en Inteligencia de Fuentes Abiertas (OSINT) diseñada para la identificación y enumeración 
-de nombres de usuario o identidades objetivo. Su propósito es localizar la presencia de un target específico en el ecosistema de 
+ghur es una herramienta especializada en Inteligencia de Fuentes Abiertas (OSINT) diseñada para la identificación y enumeración de nombres de usuario o identidades objetivo. Su propósito es localizar la presencia de un target específico en el ecosistema de 
 redes sociales.
 
 Funcionalidad Central
@@ -24,15 +23,12 @@ Funcionalidad Central
 
 Nota sobre Precisión
 
-El sistema opera en base a la disponibilidad pública de los perfiles. Es crucial que el usuario valide los resultados, ya que la 
-herramienta puede generar falsos positivos.
+El sistema opera en base a la disponibilidad pública de los perfiles. Es crucial que el usuario valide los resultados, ya que la herramienta puede generar falsos positivos.
 
 Planes de Desarrollo (Roadmap)
 
 Se contempla la siguiente expansión para incrementar la capacidad y precisión de la herramienta:
 
-  - Gestión de Claves API: Implementación de un módulo para almacenar e integrar claves de API personales, permitiendo el acceso 
-                           a datos más profundos y optimizando la velocidad de consulta en plataformas específicas.
+  - Gestión de Claves API: Implementación de un módulo para almacenar e integrar claves de API personales, permitiendo el acceso a datos más profundos y optimizando la velocidad de consulta en plataformas específicas.
 
-  - Capacidades de Web Scraping: Desarrollo de funcionalidades de web scraping avanzado para ampliar la búsqueda a fuentes de 
-                                 datos no convencionales y obtener información estructurada de manera automática.
+  - Capacidades de Web Scraping: Desarrollo de funcionalidades de web scraping avanzado para ampliar la búsqueda a fuentes de datos no convencionales y obtener información estructurada de manera automática.
